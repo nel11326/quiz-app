@@ -2,8 +2,7 @@ import { useState, useCallback } from "react";
 
 import QUESTIONS from "../questions.js";
 import quizCompleteImg from "../assets/quiz-complete.png";
-import QuestionTimer from "./QuestionTimer.jsx";
-
+import Question from "./Question.jsx";
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
 
@@ -34,28 +33,14 @@ export default function Quiz() {
     );
   }
 
-  const shuffledAnswers = [...QUESTIONS[activeQuestionIndex].answers];
-  shuffledAnswers.sort(() => Math.random() - 0.5);
-
   return (
     <div id="quiz">
-      <div id="question">
-        <QuestionTimer
-          key={activeQuestionIndex}
-          timeout={10000}
-          onTimeout={skipAnswerHandler}
-        />
-        <p>{QUESTIONS[activeQuestionIndex].text}</p>
-        <ul id="answers">
-          {shuffledAnswers.map((answer) => (
-            <li key={answer} className="answer">
-              <button onClick={() => selectAnswerHandler(answer)}>
-                {answer}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <Question
+        key={activeQuestionIndex}
+        index={activeQuestionIndex}
+        onSelectAnswer={selectAnswerHandler}
+        onSkipAnswer={skipAnswerHandler}
+      />
     </div>
   );
 }
