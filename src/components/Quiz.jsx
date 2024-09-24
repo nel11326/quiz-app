@@ -7,10 +7,17 @@ import Summary from "./Summary.jsx";
 
 export default function Quiz() {
   const [userAnswers, setUserAnswers] = useState([]);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [userName, setUserName] = useState("");
 
   const activeQuestionIndex = userAnswers.length;
-
   const quizIsComplete = activeQuestionIndex === QUESTIONS.length;
+
+  const startQuizHandler = () => {
+    if (userName.trim()) {
+      setQuizStarted(true);
+    }
+  };
 
   const selectAnswerHandler = useCallback(function selectAnswerHandler(
     selectedAnswer
@@ -26,8 +33,23 @@ export default function Quiz() {
     [selectAnswerHandler]
   );
 
+  if (!quizStarted) {
+    return (
+      <div id="start-screen">
+        <h2>Enter your name to start the quiz:</h2>
+        <input
+          type="text"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+          placeholder="Complete Name"
+        />
+        <button onClick={startQuizHandler}>Start Quiz</button>
+      </div>
+    );
+  }
+
   if (quizIsComplete) {
-    return <Summary userAnswers={userAnswers} />;
+    return <Summary userAnswers={userAnswers} userName={userName} />;
   }
 
   return (
