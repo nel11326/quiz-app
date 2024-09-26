@@ -16,7 +16,14 @@ export default function Quiz() {
   const startQuizHandler = () => {
     if (userName.trim()) {
       setQuizStarted(true);
+      setUserAnswers([]);
     }
+  };
+
+  const resetQuizHandler = () => {
+    setUserAnswers([]);
+    setQuizStarted(false);
+    setUserName("");
   };
 
   const selectAnswerHandler = useCallback(function selectAnswerHandler(
@@ -49,7 +56,13 @@ export default function Quiz() {
   }
 
   if (quizIsComplete) {
-    return <Summary userAnswers={userAnswers} userName={userName} />;
+    return (
+      <Summary
+        userAnswers={userAnswers}
+        userName={userName}
+        onResetQuiz={resetQuizHandler}
+      />
+    );
   }
 
   return (

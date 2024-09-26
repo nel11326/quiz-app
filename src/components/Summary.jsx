@@ -1,7 +1,7 @@
 import quizCompleteImg from "../assets/quiz-complete.png";
 import QUESTIONS from "../questions.js";
 
-export default function Summary({ userAnswers }) {
+export default function Summary({ userAnswers, userName, onResetQuiz }) {
   const skippedAnswers = userAnswers.filter((answer) => answer === null);
   const correctAnswers = userAnswers.filter(
     (answer, index) => answer === QUESTIONS[index].answers[0]
@@ -21,6 +21,7 @@ export default function Summary({ userAnswers }) {
     <div id="summary">
       <img src={quizCompleteImg} alt="Quiz complete" />
       <h2>Quiz Complete</h2>
+      <h4>well done, {userName}</h4>
       <div id="summary-stats">
         <p>
           <span className="number">{skippedAnswersShare}%</span>
@@ -56,6 +57,9 @@ export default function Summary({ userAnswers }) {
           );
         })}
       </ol>
+      <div className="reset">
+        <button onClick={onResetQuiz}>Start Again</button>
+      </div>
     </div>
   );
 }
